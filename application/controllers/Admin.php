@@ -70,7 +70,7 @@ class Admin extends CI_Controller
 		} else {
 			$this->db->delete('user_access_menu', $data);
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-			Access has been !</div>');
+			Access has been removed!</div>');
 		}
 	}
 }
