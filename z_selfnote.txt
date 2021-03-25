@@ -1,0 +1,9 @@
+Awal menajalankan:
+- application/config/config.php
+	- ubah base_url: $config['base_url'] = 'http://localhost/belajar/wpulogin';
+	- $config['index_page'] = '';
+	- buat file .htaccess (liat dokumentasi dari CI URL)
+- application/config/autoload.php
+	- $autoload['libraries'] = array('database', 'email', 'session');
+	- $autoload['helper'] = array('url', 'file', 'security');
+- ubah routes.php untuk default page
