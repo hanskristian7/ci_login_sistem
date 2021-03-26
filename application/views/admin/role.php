@@ -12,7 +12,7 @@
 			<!-- kalau berhasil -->
 			<?= $this->session->flashdata('message'); ?>
 
-			<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRoleModal">Add new menu</a>
+			<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRoleModal">Add new role</a>
 
 			<table class="table table-hover">
 				<thead>
