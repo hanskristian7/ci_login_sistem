@@ -70,4 +70,45 @@ class User extends CI_Controller
 			redirect('user');
 		}
 	}
+
+	public function changePassword()
+	{
+		$data['title'] = "Change Password";
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+		$this->form_validation->set_rules('currentPassword', 'Current Password', 'required|trim');
+		$this->form_validation->set_rules('newPassword', 'New Password', 'required|trim|min_length[3]|matches[repeatNewPassword]');
+		$this->form_validation->set_rules('repeatNewPassword', 'Confirm New Password', 'required|trim|min_length[3]|matches[newPassword]');
+
+		if ($this->form_validation->run() == false) {
+			$this->load->view('templates/header.php', $data);
+			$this->load->view('templates/sidebar.php', $data);
+			$this->load->view('templates/topbar.php', $data);
+			$this->load->view('user/change_password', $data);
+			$this->load->view('templates/footer.php');
+		} else {
+			$currentPassword = $this->input->post('currentPassword');
+			$newPassword = $this->input->post('newPassword');
+			if (!password_verify($currentPassword, $data['user']['password'])) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+				Your forget your current password?</div>');
+				redirect('user/changePassword');
+			} else {
+				if ($newPassword == $currentPassword) {
+					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+					Oops your new password is the same as the old one!</div>');
+					redirect('user/changePassword');
+				} else {
+					$newPassword_hash = password_hash($newPassword, PASSWORD_DEFAULT);
+					$this->db->where('email', $this->session->userdata('email'));
+					$this->db->set('password', $newPassword_hash);
+					$this->db->update('user');
+
+					$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+					Password has successfully changed!</div>');
+					redirect('user');
+				}
+			}
+		}
+	}
 }
