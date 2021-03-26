@@ -14,9 +14,9 @@ function is_logged_in()
 		$userAccess = $ci->db->get_where('user_access_menu', [
 			'role_id' => $role_id,
 			'menu_id' => $menu_id['id']
-		]);
+		])->num_rows();
 
-		if ($userAccess->num_rows() < 1) {
+		if ($userAccess < 1) {
 			redirect('auth/blocked');
 		}
 	}
